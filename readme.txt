@@ -1,0 +1,1 @@
+A program used to solve easy to hard sudoku puzzles - not the hardest, yet.

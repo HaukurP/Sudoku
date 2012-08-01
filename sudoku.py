@@ -293,6 +293,9 @@ class Board:
         else:
             return "Sudoku is not solved"
 
+    def multiplesolutions():
+        pass
+
 board = Board()
 board.realboard()
 board.printboard()
