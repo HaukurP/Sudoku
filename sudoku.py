@@ -120,18 +120,20 @@ class Board:
                                 removed = True
         return removed
 
-    def removeoptions():
+    def removeoptions(self):
         """calls for the check* operations"""
         print("removing possibilities from squares")
         removed = self.checkhoriz()
         print("    horizontally")
         if removed:
+            self.maketrue()
             dontcare = self.checkvertic()
             print("    vertically")
         else:
             removed = self.checkvertic()
             print("    vertically")
         if removed:
+            self.maketrue()
             dontcare = self.checkbox()
             print("    inside boxes")
         else:
@@ -139,7 +141,7 @@ class Board:
             print("    inside boxes")
         return removed
 
-    def whatsleft():
+    def whatsleft(self):
         """finds out what numbers are left and adds them as solutions"""
         print("checking for single possibilites")
         removed = False
@@ -151,6 +153,14 @@ class Board:
                     dontcare = self.deduceline(self.whatsleftinline(m,k),m,k)
                 else:
                     removed = self.deduceline(self.whatsleftinline(m,k),m,k)
+        print("    vertically")
+        for i in range(0,9,3):
+             for j in range(0,9,3):
+                 m,k = i%3,j%3
+                 if removed:
+                     dontcare = self.deducerow(self.whatsleftinrow(m,k),m,k)
+                 else:
+                     removed = self.deducerow(self.whatsleftinrow(m,k),m,k)                   
         print("    inside boxes")
         for i in range(9):
             if removed:
@@ -160,7 +170,7 @@ class Board:
 
         return removed
 
-    def whatsleftinbox(i):
+    def whatsleftinbox(self,i):
         """finds out what numbers are left to solve in a box"""
         left = [1,2,3,4,5,6,7,8,9]
         for j in range(9):
@@ -168,7 +178,7 @@ class Board:
                 left.remove(self.data[i][j][0])
         return left
     
-    def deducebox(left,i):
+    def deducebox(self,left,i):
         """finds what possibilites are the only ones left in a box and adds them"""
         removed = False
         for number in left:
@@ -214,15 +224,38 @@ class Board:
             if often == 1:
                 self.data[cordx][cordy] = [number,True]
                 removed = True
+                print("virkaði - line")
         return removed
 
-    def whatsleftinrow(self,row):
+    def whatsleftinrow(self,m,k):
         """finds out what numbers are left in the row"""
-        pass
+        left = [1,2,3,4,5,6,7,8,9]
+        for i in range(3):
+            for j in range(3):
+                 if self.data[i+m][j+k][1] == True:
+                      left.remove(self.data[i+m][j+k][0])
+        return left
 
-    def whatsleftinline(self,line):
-        """finds out what numbers are left in the line"""
-        pass                    
+    def deducerow(self,left,m,k):
+        """finds what possibilites are the only ones left in a row and adds them"""
+        removed = False
+        for number in left:
+            often = 0
+            cordx,cordy = 0,0
+            for i in range(3):
+                for j in range(3):
+                    if self.data[i+m][j+k][1] == True:
+                        pass
+                    elif number in self.data[i+m][j+k]:
+                        often += 1
+                        cordx,cordy = i+m,j+k
+                    else:
+                        pass
+            if often == 1:
+                self.data[cordx][cordy] = [number,True]
+                removed = True
+                print("virkaði - row")
+        return removed
 
     def trysolving(self):
         """helping function"""
