@@ -266,7 +266,6 @@ class Board:
             removed = self.maketrue()
         if removed:
             print("some options were removed")
-        if removed:
             dontcare = self.whatsleft()
         else:
             removed = self.whatsleft()
