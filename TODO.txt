@@ -1,2 +1,3 @@
---gera spes file sem tekur inn þraut og er hægt að keyra með sudoku.py
---klára multiple solutions, líklegra betra að gera efra fyrst.
+--Gera lestur á sudoku frá einhverri síðu
+--Gera gui
+--Gera app?

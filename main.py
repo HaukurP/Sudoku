@@ -31,41 +31,43 @@ def testboard(board):
     board.addfinal(9,8,2)
     board.addfinal(6,8,7)
 
-def trymultiple(board):
-    pass
-
 def solve(board):
     board.printboard()
     trymore = board.trysolving()
 
     while trymore:
         trymore = board.trysolving()
-        board.printboard()
 
     if board.issolved():
         print("Sudoku is solved")
-        if stack:
-            print("Finishing other solutions - depth",depth)
+        board.printboard()
+        if not stack:
+            pass
+        else:
+            print("Finishing other attempts")
             solve(stack.pop())
     else:
         depth =+ 1
-        print("Sudoku is not solved - attempting multiple solutions - depth:",depth)
+        print("Sudoku is not solved - attempting multiple solutions")
         toaddinstack = board.multiplesolutions()
         for listboard in toaddinstack:
-            boards = sudoku.Board()#skrifar yfir
+            boards = sudoku.Board()
             boards.importdata(listboard)
-            id(boards)
             stack.append(boards)
-            print(boards)
-        solve(stack.pop())
+                      
+    solve(stack.pop())      
+    
         
     
 start = time.clock()
-depth = 0
 board1 = sudoku.Board()
 testboard(board1)
 stack = [board1]
-solve(stack.pop())
+while stack:
+    try:
+        solve(stack.pop())
+    except:
+        print("No solution")
 
 end = time.clock()-start
 print("End of program - Runtime: {0:.4f} seconds".format(end))

@@ -1,4 +1,4 @@
-import sys
+import sys, copy
 
 class Board:
     """creates a new board with all possibilities open"""
@@ -37,7 +37,7 @@ class Board:
 
     def importdata(self,bdata):
         """imports data from a list to a Board"""
-        self.data = bdata[:][:]                                             #laga?
+        self.data = copy.deepcopy(bdata)                                             
 
     def addfinal(self,number,i,j):
         """adds a number to a square, as an answer"""
@@ -135,7 +135,7 @@ class Board:
         """finds out what numbers are left and adds them as solutions"""
         print("checking for single possibilites")
         removed = False
-        print("    horizontally")
+        print("    horizontally")                                                    #Þarf þetta?
         for i in range(3):
             for j in range(3):
                 m,k = i//3,j//3
@@ -143,7 +143,7 @@ class Board:
                     dontcare = self.deduceline(self.whatsleftinline(m,k),m,k)
                 else:
                     removed = self.deduceline(self.whatsleftinline(m,k),m,k)
-        print("    vertically")
+        print("    vertically")                                                  #Þarf þetta?
         for i in range(0,9,3):
              for j in range(0,9,3):
                  m,k = i%3,j%3
@@ -166,6 +166,7 @@ class Board:
         for j in range(9):
             if self.data[i][j][1] == True:
                 left.remove(self.data[i][j][0])
+                    
         return left
     
     def deducebox(self,left,i):
@@ -214,7 +215,6 @@ class Board:
             if often == 1:
                 self.data[cordx][cordy] = [number,True]
                 removed = True
-                print("virkaði - line")
         return removed
 
     def whatsleftinrow(self,m,k):
@@ -244,7 +244,6 @@ class Board:
             if often == 1:
                 self.data[cordx][cordy] = [number,True]
                 removed = True
-                print("virkaði - row")
         return removed
 
     def trysolving(self):
@@ -286,19 +285,11 @@ class Board:
         i,j = self.findlowestamount()
         length = len(self.data[i][j])-1
         multipleboards = [None]*length
-      #  self.data = [None]*9
-      #  for i in range(9):
-      #  self.data[i]=[None]*9
-        print(length)
-        print(self.data[i][j])
         for k in range(length):
-            print("indedx",k)
-            print(multipleboards)
             numbers = self.data[i][j][k]
-            print("tala",numbers)
-            multipleboards[k] = self.data[:][:]
-            multipleboards[k][i][j] = [numbers,True]                    #skrifar yfir
-            print(multipleboards[k][i][j])
+            multipleboards[k] = copy.deepcopy(self.data)
+            multipleboards[k][i][j] = [numbers,True]
+            print("Guessing on",numbers,"in",i,j)
         return multipleboards
 
     def findlowestamount(self):
@@ -310,3 +301,5 @@ class Board:
                     if len(self.data[i][j]) <= counter and self.data[i][j][1] != True:
                         return [i,j]
             counter += 1
+
+            
