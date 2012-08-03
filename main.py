@@ -50,7 +50,14 @@ def solve(board):
     else:
         depth =+ 1
         print("Sudoku is not solved - attempting multiple solutions - depth:",depth)
-        board.multiplesolutions()
+        toaddinstack = board.multiplesolutions()
+        for listboard in toaddinstack:
+            boards = sudoku.Board()#skrifar yfir
+            boards.importdata(listboard)
+            id(boards)
+            stack.append(boards)
+            print(boards)
+        solve(stack.pop())
         
     
 start = time.clock()

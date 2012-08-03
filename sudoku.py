@@ -2,6 +2,18 @@ import sys
 
 class Board:
     """creates a new board with all possibilities open"""
+    # A Board has numeric values infront of a True or False value
+    # A True value means that the numeric value infront is a solution
+    # A False value means that the numeric value(s) are possible solutions
+    # The data is set up, looking at sudoku as:
+    #     0        1      2
+    # | 0 1 2 | 1 2 3 | ....
+    # | 3 4 5 | .....
+    # | 6 7 8 | ....
+    # ______________________
+    # |   3   |   4     .
+    # | ..... |         :
+    
     def __init__(self):
         print("creating sudoku")
         self.data = [None]*9
@@ -22,6 +34,10 @@ class Board:
                     print(end="---")
                 print()
         print("_______________________________________")
+
+    def importdata(self,bdata):
+        """imports data from a list to a Board"""
+        self.data = bdata[:][:]                                             #laga?
 
     def addfinal(self,number,i,j):
         """adds a number to a square, as an answer"""
@@ -256,6 +272,7 @@ class Board:
         return madetrue
 
     def issolved(self):
+        """returns true if sudoku is solved, else false"""
         solved = True
         for i in range(9):
             for j in range(9):
@@ -264,16 +281,32 @@ class Board:
                     break
         return solved
 
-    def multiplesolutions():
-        i,j = findlowestamount()
-        for numbers in (len(self.data[i][j])-1):
-            print(numbers)
+    def multiplesolutions(self):
+        """returns multiple sudoku boards where a number has been picked"""
+        i,j = self.findlowestamount()
+        length = len(self.data[i][j])-1
+        multipleboards = [None]*length
+      #  self.data = [None]*9
+      #  for i in range(9):
+      #  self.data[i]=[None]*9
+        print(length)
+        print(self.data[i][j])
+        for k in range(length):
+            print("indedx",k)
+            print(multipleboards)
+            numbers = self.data[i][j][k]
+            print("tala",numbers)
+            multipleboards[k] = self.data[:][:]
+            multipleboards[k][i][j] = [numbers,True]                    #skrifar yfir
+            print(multipleboards[k][i][j])
+        return multipleboards
 
-    def findlowestamount():
+    def findlowestamount(self):
+        """finds the lowest amount of options in a square on the whole board and returns the index of it"""
         counter = 3
         while counter <= 10:
             for i in range (9):
                 for j in range(9):
-                    if len(self.data[i][j]) <= counter:
+                    if len(self.data[i][j]) <= counter and self.data[i][j][1] != True:
                         return [i,j]
             counter += 1
