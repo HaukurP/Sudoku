@@ -25,38 +25,12 @@ class Board:
 
     def addfinal(self,number,i,j):
         """adds a number to a square, as an answer"""
-        self.data[i][j] = [number, True]
+        self.data[i][j] = [number, False]
+        self.maketrue()
 
-    def realboard(self):
-        """creates a test board"""
-        print("real board activated")
-        self.addfinal(9,0,1)
-        self.addfinal(6,0,6)
-        self.addfinal(3,0,8)
-        self.addfinal(9,1,5)
-        self.addfinal(5,1,8)
-        self.addfinal(3,2,0)
-        self.addfinal(2,2,1)
-        self.addfinal(4,2,8)
-        self.addfinal(3,3,1)
-        self.addfinal(2,3,6)
-        self.addfinal(5,3,7)
-        self.addfinal(6,3,8)
-        self.addfinal(9,4,1)
-        self.addfinal(8,4,7)
-        self.addfinal(2,5,0)
-        self.addfinal(8,5,1)
-        self.addfinal(5,5,2)
-        self.addfinal(3,5,7)
-        self.addfinal(3,6,0)
-        self.addfinal(2,6,7)
-        self.addfinal(4,6,8)
-        self.addfinal(8,7,0)
-        self.addfinal(7,7,3)
-        self.addfinal(5,8,0)
-        self.addfinal(9,8,2)
-        self.addfinal(6,8,7)
-
+    def addnumbers(self,numbers,i,j):
+        """adds a number to a square and checks if it's an answer"""
+        #bæta við seinna?
 
     def checkhoriz(self):
         """checks what possibilities are not ok, horizontally"""
@@ -287,22 +261,19 @@ class Board:
             for j in range(9):
                 if self.data[i][j][1] != True:
                     solved = False
-        if solved:
-            return "Sudoku is solved"
-        else:
-            return "Sudoku is not solved"
+                    break
+        return solved
 
     def multiplesolutions():
-        pass
+        i,j = findlowestamount()
+        for numbers in (len(self.data[i][j])-1):
+            print(numbers)
 
-board = Board()
-board.realboard()
-board.printboard()
-trymore = board.trysolving()
-
-while trymore:
-    trymore = board.trysolving()
-    board.printboard()
-
-print(board.issolved())
-print("end of program")
+    def findlowestamount():
+        counter = 3
+        while counter <= 10:
+            for i in range (9):
+                for j in range(9):
+                    if len(self.data[i][j]) <= counter:
+                        return [i,j]
+            counter += 1
