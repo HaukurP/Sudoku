@@ -1,3 +1,7 @@
 --Gera lestur á sudoku frá einhverri síğu
 --Gera gui
 --Gera app?
+
+
+--bera saman lausnir
+--fækka print
